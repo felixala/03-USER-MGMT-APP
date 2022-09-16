@@ -1,0 +1,8 @@
+Hi {FULL_NAME},<br />
+<br />
+Your password is:<br />
+<br />
+{PWD}
+<br />
+Thanks,
+Admin Team
