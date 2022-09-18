@@ -59,14 +59,19 @@ public class UserMgmtServiceImpl implements UserMgmtService {
             return false; // email and password are not in the database
         }else {
             UserMaster userMaster = findAll.get(0);
-            if(activeAccount.getNewPwd() == activeAccount.getConfirmPwd()){
+            /*
+            It is a good practice to validate "new password" and "confirm password" in the frontend
+            Since a new a password has note been entered in the database
+             */
+            //if(activeAccount.getNewPwd().equals(activeAccount.getConfirmPwd())){
                 userMaster.setPassword(activeAccount.getNewPwd());
                 userMaster.setAccStatus("ACTIVE");
+                userRepo.save(userMaster);
                 return true;
-            }
+            //}
 
         }
-        return false;
+        //return false;
     }
 
     @Override
@@ -94,14 +99,15 @@ public class UserMgmtServiceImpl implements UserMgmtService {
     }
 
     @Override
-    public User findUserById(Integer userId) {
+    public User getUserById(Integer userId) {
 
         Optional<UserMaster> findById = userRepo.findById(userId);
 
         if(findById.isPresent()){
             User user = new User();
             UserMaster userMaster = findById.get();
-            BeanUtils.copyProperties(findById, user);
+            BeanUtils.copyProperties(userMaster, user);
+
             return user;
         }
         return null;
@@ -113,6 +119,7 @@ public class UserMgmtServiceImpl implements UserMgmtService {
         if(findById.isPresent()){
             UserMaster userMaster = findById.get();
             userMaster.setAccStatus(status);
+            userRepo.save(userMaster);
             return true;
         }
 
@@ -151,9 +158,12 @@ public class UserMgmtServiceImpl implements UserMgmtService {
         String fileName ="RECOVER-MAIL-BODY.txt";
         String body = readRegEmailBody(entity.getFullName(), entity.getPassword(), fileName);
 
-        emailUtils.sendEmail(entity.getEmail(), subject, body);
+        boolean sendEmail = emailUtils.sendEmail(entity.getEmail(), subject, body);
 
-        return "Email Sent";
+        if(sendEmail){
+            return "Password sent to you registered email";
+        }
+        return null;
     }
 
     private String generateRandomPassword() {

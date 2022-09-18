@@ -7,6 +7,7 @@
 * Spring Boot Mail
 * Lombok
 * Maven
+* Swagger
 * Java
 
 ## Requirements about the project

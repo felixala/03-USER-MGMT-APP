@@ -17,5 +17,5 @@ public class User {
 
     private LocalDate dob;
 
-    private Long ssn;
+    private Integer ssn;
 }

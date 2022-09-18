@@ -1,6 +1,9 @@
 package com.felixlaura.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -31,7 +34,7 @@ public class UserMaster {
     private LocalDate dob;
 
     @Column(name = "SSN")
-    private Long ssn;
+    private Integer ssn;
 
     @Column(name = "PASSWORD")
     private String password;
@@ -39,9 +42,11 @@ public class UserMaster {
     @Column(name = "ACC_STATUS")
     private String accStatus;
 
+    @CreationTimestamp
     @Column(name = "CREATED_DATE", updatable = false)
     private LocalDate createdDate;
 
+    @UpdateTimestamp
     @Column(name = "UPDATED_DATE", insertable = false)
     private LocalDate updatedDate;
 

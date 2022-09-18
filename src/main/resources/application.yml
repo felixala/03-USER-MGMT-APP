@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    username: root
+    password: password
+    url: jdbc:mysql://localhost:3306/sbms
+#    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  mail:
+    host: smtp.mailtrap.io
+    port: 25
+    username: 78a9f2cc45ac40
+    password: 3fa43f72b8e727
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

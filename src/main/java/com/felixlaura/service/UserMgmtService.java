@@ -17,7 +17,7 @@ public interface UserMgmtService {
 
     public List<User> getAllUsers();
 
-    public User findUserById(Integer userId);
+    public User getUserById(Integer userId);
 
     public boolean changeAccStatus(Integer userId, String status);
 
