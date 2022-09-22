@@ -13,8 +13,13 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>03-USER-MGMT-APP</name>
     <description>03-USER-MGMT-APP</description>
+
+
     <properties>
         <java.version>17</java.version>
+        <sonar.host.url>sonar_ip_address</sonar.host.url>
+        <sonar.login>sonar_user</sonar.login>
+        <sonar.password>sonar_password</sonar.password>
     </properties>
     <dependencies>
         <dependency>

@@ -6,6 +6,8 @@ import com.felixlaura.bindings.User;
 import com.felixlaura.entity.UserMaster;
 import com.felixlaura.repository.UserMgmtRepository;
 import com.felixlaura.utils.EmailUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -21,11 +23,15 @@ import java.util.List;
 @Service
 public class UserMgmtServiceImpl implements UserMgmtService {
 
+    Logger logger = LoggerFactory.getLogger(UserMgmtServiceImpl.class);
+
     @Autowired
     private UserMgmtRepository userRepo;
 
     @Autowired
     private EmailUtils emailUtils;
+
+    Random random = new Random();
 
     @Override
     public boolean saveUser(User user) {
@@ -35,7 +41,6 @@ public class UserMgmtServiceImpl implements UserMgmtService {
         entity.setPassword(generateRandomPassword());
         UserMaster save = userRepo.save(entity);
 
-        //TODO: Send email to activate account
         String subject = "Your Registration Success";
         String fileName = "REG-EMAIL-BODY.txt";
         String body = readRegEmailBody(entity.getFullName(), entity.getPassword(), fileName);
@@ -59,19 +64,12 @@ public class UserMgmtServiceImpl implements UserMgmtService {
             return false; // email and password are not in the database
         }else {
             UserMaster userMaster = findAll.get(0);
-            /*
-            It is a good practice to validate "new password" and "confirm password" in the frontend
-            Since a new a password has note been entered in the database
-             */
-            //if(activeAccount.getNewPwd().equals(activeAccount.getConfirmPwd())){
+
                 userMaster.setPassword(activeAccount.getNewPwd());
                 userMaster.setAccStatus("ACTIVE");
                 userRepo.save(userMaster);
                 return true;
-            //}
-
         }
-        //return false;
     }
 
     @Override
@@ -80,7 +78,7 @@ public class UserMgmtServiceImpl implements UserMgmtService {
            userRepo.deleteById(userId);
            return true;
         }catch (Exception e){
-            e.printStackTrace();
+           logger.error("Exception Occurred", e);
         }
         return false;
     }
@@ -153,7 +151,7 @@ public class UserMgmtServiceImpl implements UserMgmtService {
         if(entity == null){
             return "Invalid Credentials";
         }
-        //TODO: Email Service
+
         String subject = "Forgot Password";
         String fileName ="RECOVER-MAIL-BODY.txt";
         String body = readRegEmailBody(entity.getFullName(), entity.getPassword(), fileName);
@@ -179,9 +177,6 @@ public class UserMgmtServiceImpl implements UserMgmtService {
         // create random string builder
         StringBuilder sb = new StringBuilder();
 
-        // create an object of Random class
-        Random random = new Random();
-
         // specify length of random string
         int length = 10;
 
@@ -204,17 +199,14 @@ public class UserMgmtServiceImpl implements UserMgmtService {
     private String readRegEmailBody(String fullName, String pwd, String fileName){
         String url = "";
         String mailBody = null;
-        try{
-            FileReader file = new FileReader(fileName);
-            BufferedReader br = new BufferedReader(file);
-            StringBuffer buffer = new StringBuffer();
+        try(FileReader file = new FileReader(fileName); BufferedReader br = new BufferedReader(file)){
+            StringBuilder buffer = new StringBuilder();
             String line = br.readLine();
 
             while (line != null){
                 buffer.append(line);
                 line = br.readLine(); // Read next line
             }
-            br.close();
             mailBody = buffer.toString();
             mailBody = mailBody.replace("{FULL_NAME}", fullName);
             mailBody = mailBody.replace("{TEMP_PWD}", pwd);
@@ -222,7 +214,7 @@ public class UserMgmtServiceImpl implements UserMgmtService {
             mailBody = mailBody.replace("{PWD}", pwd);
 
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("Exception Occurred", e);
         }
         return mailBody;
 

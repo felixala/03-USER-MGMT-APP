@@ -9,7 +9,25 @@
 * Maven
 * Swagger
 * Java
+* SonarQube
 
+
+## SonarQube in the project
+1) Add SonarQube dependency in the pom.xml
+```
+    <properties>
+        <java.version>17</java.version>
+        <sonar.host.url>sonar_ip_address</sonar.host.url>
+        <sonar.login>sonar_user</sonar.login>
+        <sonar.password>sonar_password</sonar.password>
+    </properties>
+```
+2) Install and create SonarQube account.
+3) Type next command to create war file and connect to sonar
+```
+    mvn clean package
+    mvn sonar:sonar
+```
 ## Requirements about the project
 ## 1) Develop a screen for "User Registration".
 New users will fill out the form below to create an account. After registration success, a random password will be sent to the user email in order to activate the account. User account will be inactive status.
