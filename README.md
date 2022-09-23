@@ -38,7 +38,7 @@ Jmeter Setup:
 2) Extract Jmeter zip file:
 3) After extracting the zip. Go to apache-jmeter-5.5/bin folder and double click on "jmeter.bat" file (It will open Jmeter Tool).
 
-Create A Test Plan using GUI:
+### A) Create A Test Plan using GUI:
 1) Right click on Test Plan:
 
     -> Add Threads -> Add Thread Group
@@ -80,7 +80,7 @@ Create A Test Plan using GUI:
 5) Run the project
 
 
-Run a Test Plan using CLI (Best Practise):
+### B) Run a Test Plan using CLI (Best Practise):
 
 1) Create the test plan in GUI mode (above steps) and run test in CLI mode
 2) Open Command Prompt or other Command Line and go to the folder apache-jmeter-5.5/bin and type the following command:
