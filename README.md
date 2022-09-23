@@ -28,6 +28,58 @@
     mvn clean package
     mvn sonar:sonar
 ```
+
+
+## Adding Jmeter to the project
+Jmeter is an open source software and help to test how our application will respond to different work loads.
+
+Jmeter Setup:
+1)   Download Jmeter Software from: ![img_1.png](img_1.png)
+2) Extract Jmeter zip file:
+3) After extracting the zip. Go to apache-jmeter-5.5/bin folder and double click on "jmeter.bat" file (It will open Jmeter Tool).
+
+Create A Test Plan:
+1) Right click on Test Plan:
+
+    -> Add Threads -> Add Thread Group
+
+    -> Add thread / user count (in this 100 case)
+
+![Thread Group](https://github.com/felixala/03-USER-MGMT-APP/blob/master/src/main/resources/images/screenshots/jmeter-thread-group.png)
+
+2) Right click on Thread Group:
+
+    -> Add Sampler -> Http Request
+
+![Sampler](https://github.com/felixala/03-USER-MGMT-APP/blob/master/src/main/resources/images/screenshots/jmeter-sampler.png)
+
+
+				Fill out:
+					Name: HTTP GET Request
+					Server Name or IP: localhost
+					Port Number: 8080
+					HTTP Request: GET
+					Path: /users
+
+![Sampler Details](https://github.com/felixala/03-USER-MGMT-APP/blob/master/src/main/resources/images/screenshots/jmeter-sampler-details.png)
+
+3) Right click on Thread Group (For Listeners)
+
+    -> Listner -> Summary Report 
+
+![Listener](https://github.com/felixala/03-USER-MGMT-APP/blob/master/src/main/resources/images/screenshots/jmeter-listener.png)
+
+4) Save test and run test
+
+![Save](https://github.com/felixala/03-USER-MGMT-APP/blob/master/src/main/resources/images/screenshots/jmeter-save.png)
+
+![Run](https://github.com/felixala/03-USER-MGMT-APP/blob/master/src/main/resources/images/screenshots/jmeter-run.png)
+
+![Report](https://github.com/felixala/03-USER-MGMT-APP/blob/master/src/main/resources/images/screenshots/jmeter-report.png)
+
+5) Run the project
+
+
 ## Requirements about the project
 ## 1) Develop a screen for "User Registration".
 New users will fill out the form below to create an account. After registration success, a random password will be sent to the user email in order to activate the account. User account will be inactive status.
